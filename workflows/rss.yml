@@ -1,17 +1,24 @@
+name: Send email new RSS Feed items	
 on:
   rss:
-    url: https://hnrss.org/newest?points=300&count=3
+    url: https://rsshub.app/telegram/channel/dedao2019
 jobs:
-  print:
-    name: Print
+  email:
+    name: Post a email
     runs-on: ubuntu-latest
     steps:
-      - name: Print Outputs
-        env:
-          title: ${{on.rss.outputs.title}}
-          contentSnippet: ${{on.rss.outputs.contentSnippet}}
-          link: ${{on.rss.outputs.link}}
-        run: |
-          echo title: $title
-          echo contentSnippet: $contentSnippet
-          echo link: $link
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtphz.qiye.163.com
+          server_port: 25
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: ${{ on.rss.outputs.title }}
+          # Literal body:
+          body: ${{ on.rss.outputs.content }}
+          # Read file contents as body:
+          to: ${{secrets.TO_MAIL}}
+          from: ${{secrets.MAIL_USERNAME}} # <user@example.com>
+          # Optional content type (defaults to text/plain):
+          content_type: text/html
