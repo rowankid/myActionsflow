@@ -1,7 +1,7 @@
 name: Send email new RSS Feed items	
 on:
   rss:
-    url: http://www.ruanyifeng.com/blog/atom.xml
+    url: http://feeds.feedburner.com/zhihu-daily
 jobs:
   email:
     name: Post a email
